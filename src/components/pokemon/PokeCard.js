@@ -26,25 +26,36 @@ const Card = styled.div`
   padding: 20px;
   text-align: center;
   background: ${(props) => colors[props.type]};
-  transition: all 0.2s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  transform-style: preserve-3d;
+  perspective: 550px;
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.1) rotateY(180deg);
+    .front {
+      display: none;
+    }
+    .back {
+      display: block;
+    }
   }
-
-  .img-container {
+  .front,
+  .back {
     width: 120px;
-    heigth: 120px;
-    background-color: rgba(255, 255, 255, 0.6);
-    border-radius: 50%;
-    text-align: center;
   }
 
-  .img-container img {
-    max-width: 90%;
-    margin-top: 20px;
+  .back {
+    transform: rotateY(180deg);
+    display: none;
+  }
+
+  h4.name {
+    margin: 15px 0 7px;
   }
 `
+
+//TODO: Use backface-visibility: hidden;
+
 const Image = styled.div`
   width: 120px;
   heigth: 120px;
@@ -73,22 +84,70 @@ const Info = styled.small`
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 `
+const Base = styled.div`
+  display: flex;
+  align-items: space-between;
+  justify-content: space-between;
+  margin: 0 auto;
+`
+const Label = styled.div`
+  text-align: left;
+`
+const Value = styled.div`
+  text-align: right;
+`
 
 export default function PokeCard(props) {
   const { pokemon } = props
-  const { id, name, type } = pokemon
+  const { id, name, type, base } = pokemon
 
   return (
     <Card type={type[0].toLowerCase()}>
-      <Image>
-        <img
-          src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`}
-          alt={name.english}
-        />
-      </Image>
-      <Number>#{id.toString().padStart(3, 0)}</Number>
-      <Name>{name.english}</Name>
-      <Info>{type[0]}</Info>
+      <div className='front'>
+        <Image>
+          <img
+            src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`}
+            alt={name.english}
+          />
+        </Image>
+        <Number>#{id.toString().padStart(3, 0)}</Number>
+        <Name>{name.english}</Name>
+        <Info>{type.join(' | ')}</Info>
+      </div>
+      <div className='back'>
+        <Number>#{id.toString().padStart(3, 0)}</Number>
+        <Name>{name.english}</Name>
+        <Info>{type.join(' | ')}</Info>
+        <Info>
+          <Base>
+            <Label>HP</Label>
+            <Value>{base['HP']}</Value>
+          </Base>
+          <Base>
+            <Label>Attack</Label>
+            <Value>{base['Attack']}</Value>
+          </Base>
+          <Base>
+            <Label>Defense</Label>
+            <Value>{base['Defense']}</Value>
+          </Base>
+          <Base>
+            <Label>Sp. Attack</Label>
+            <Value>{base['Sp. Attack']}</Value>
+          </Base>
+          <Base>
+            <Label>Sp. Defense</Label>
+            <Value>{base['Sp. Defense']}</Value>
+          </Base>
+          <Base>
+            <Label>Speed</Label>
+            <Value>{base['Speed']}</Value>
+          </Base>
+        </Info>
+        <a href='/'>
+          <small>more</small>
+        </a>
+      </div>
     </Card>
   )
 }
