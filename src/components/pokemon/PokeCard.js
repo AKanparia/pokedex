@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components'
 
 const colors = {
@@ -22,7 +22,7 @@ const Card = styled.div`
   background-color: #eee;
   border-radius: 20px;
   box-shadow: 0 3px 10px rgba(100, 100, 100, 0.5);
-  margin: 10px;
+  margin: 15px 10px;
   padding: 20px;
   text-align: center;
   background: ${(props) => colors[props.type]};
@@ -30,7 +30,7 @@ const Card = styled.div`
   transform-style: preserve-3d;
   perspective: 550px;
 
-  &:hover {
+  &.flipped {
     transform: scale(1.1) rotateY(180deg);
     .front {
       display: none;
@@ -75,7 +75,7 @@ const Number = styled.span`
   font-size: 0.8rem;
 `
 const Name = styled.h4`
-  margin: 15px 0 7px;
+  margin: 15px 0 6px;
 `
 const Info = styled.small`
   margin-top: 10px;
@@ -97,57 +97,73 @@ const Value = styled.div`
   text-align: right;
 `
 
-export default function PokeCard(props) {
-  const { pokemon } = props
-  const { id, name, type, base } = pokemon
+class PokeCard extends Component {
+  state = {
+    flipped: false,
+  }
 
-  return (
-    <Card type={type[0].toLowerCase()}>
-      <div className='front'>
-        <Image>
-          <img
-            src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`}
-            alt={name.english}
-          />
-        </Image>
-        <Number>#{id.toString().padStart(3, 0)}</Number>
-        <Name>{name.english}</Name>
-        <Info>{type.join(' | ')}</Info>
-      </div>
-      <div className='back'>
-        <Number>#{id.toString().padStart(3, 0)}</Number>
-        <Name>{name.english}</Name>
-        <Info>{type.join(' | ')}</Info>
-        <Info>
-          <Base>
-            <Label>HP</Label>
-            <Value>{base['HP']}</Value>
-          </Base>
-          <Base>
-            <Label>Attack</Label>
-            <Value>{base['Attack']}</Value>
-          </Base>
-          <Base>
-            <Label>Defense</Label>
-            <Value>{base['Defense']}</Value>
-          </Base>
-          <Base>
-            <Label>Sp. Attack</Label>
-            <Value>{base['Sp. Attack']}</Value>
-          </Base>
-          <Base>
-            <Label>Sp. Defense</Label>
-            <Value>{base['Sp. Defense']}</Value>
-          </Base>
-          <Base>
-            <Label>Speed</Label>
-            <Value>{base['Speed']}</Value>
-          </Base>
-        </Info>
-        <a href='/'>
-          <small>more</small>
-        </a>
-      </div>
-    </Card>
-  )
+  flip = (e) => {
+    this.setState((prevState) => ({ flipped: !prevState.flipped }))
+  }
+
+  render() {
+    const { pokemon } = this.props
+    const { id, name, type, base } = pokemon
+
+    return (
+      <Card
+        className={this.state.flipped ? 'flipped' : ''}
+        type={type[0].toLowerCase()}
+        onClick={this.flip}
+      >
+        <div className='front'>
+          <Image>
+            <img
+              src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`}
+              alt={name.english}
+            />
+          </Image>
+          <Number>#{id.toString().padStart(3, 0)}</Number>
+          <Name>{name.english}</Name>
+          <Info>{type.join(' | ')}</Info>
+        </div>
+        <div className='back'>
+          <Number>#{id.toString().padStart(3, 0)}</Number>
+          <Name>{name.english}</Name>
+          <Info>{type.join(' | ')}</Info>
+          <Info>
+            <Base>
+              <Label>HP</Label>
+              <Value>{base['HP']}</Value>
+            </Base>
+            <Base>
+              <Label>Attack</Label>
+              <Value>{base['Attack']}</Value>
+            </Base>
+            <Base>
+              <Label>Defense</Label>
+              <Value>{base['Defense']}</Value>
+            </Base>
+            <Base>
+              <Label>Sp. Attack</Label>
+              <Value>{base['Sp. Attack']}</Value>
+            </Base>
+            <Base>
+              <Label>Sp. Defense</Label>
+              <Value>{base['Sp. Defense']}</Value>
+            </Base>
+            <Base>
+              <Label>Speed</Label>
+              <Value>{base['Speed']}</Value>
+            </Base>
+          </Info>
+          <a href='/'>
+            <small>more</small>
+          </a>
+        </div>
+      </Card>
+    )
+  }
 }
+
+export default PokeCard
