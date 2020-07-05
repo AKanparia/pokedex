@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const NavContainer = styled.header`
   position: fixed;
@@ -24,18 +25,31 @@ const NavContainer = styled.header`
       line-height: 50px;
     }
   }
-  .logo span {
+
+  .logo a {
+    text-decoration: none;
     font-size: 30px;
     font-weight: bold;
     color: red;
-    letter-spacing: 5px;
+    letter-spacing: 3px;
+  }
+
+  .logo img {
+    max-width: 30px;
+    margin: 0px 10px;
   }
 `
 export default function NavBar() {
   return (
     <NavContainer>
       <div className='logo'>
-        <span>POKEDEX</span>
+        <Link to='/pokedex'>
+          <img
+            src='https://upload.wikimedia.org/wikipedia/commons/4/4c/Pokeball.png'
+            alt='Pokeball'
+          />
+          <span>Pokédex</span>
+        </Link>
       </div>
     </NavContainer>
   )
