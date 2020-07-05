@@ -6,6 +6,7 @@ import NavBar from './components/layout/NavBar'
 import DashBoard from './components/layout/Dashboard'
 import PageNotFound from './components/Error/PageNotFound'
 import ErrorPage from './components/Error/ErrorPage'
+import PokeDetails from './components/pokemon/PokeDetails'
 
 const AppContainer = styled.div`
   margin: 0;
@@ -37,6 +38,10 @@ function App() {
           <ErrorPage />
         ) : (
           <Switch>
+            <Route
+              path='/pokedex/:id'
+              render={(props) => <PokeDetails pokemons={pokemons} {...props} />}
+            />
             <Route
               path='/pokedex'
               render={(props) => <DashBoard pokemons={pokemons} {...props} />}

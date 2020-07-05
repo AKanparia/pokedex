@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const colors = {
   fire: '#F2C7C7', //'#FDDFDF',
@@ -157,9 +158,9 @@ class PokeCard extends Component {
               <Value>{base['Speed']}</Value>
             </Base>
           </Info>
-          <a href='/'>
+          <Link to={`/pokedex/${id}`}>
             <small>more</small>
-          </a>
+          </Link>
         </div>
       </Card>
     )
