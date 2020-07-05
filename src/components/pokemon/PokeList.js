@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PokeCard from './PokeCard'
 import styled from 'styled-components'
 

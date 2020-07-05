@@ -25,17 +25,17 @@ function App() {
 
   useEffect(() => {
     axios
-      .get('./pokedex.json')
+      .get('/pokedex.json')
       .then((res) => setPokemons(res.data.slice(0, 151)))
       .catch((error) => setError(error))
   }, [])
   return (
     <AppContainer>
       <NavBar />
-      {error ? (
-        <ErrorPage />
-      ) : (
-        <Container>
+      <Container>
+        {error ? (
+          <ErrorPage />
+        ) : (
           <Switch>
             <Route
               path='/pokedex'
@@ -48,8 +48,8 @@ function App() {
             />
             <Route component={PageNotFound} />
           </Switch>
-        </Container>
-      )}
+        )}
+      </Container>
     </AppContainer>
   )
 }
